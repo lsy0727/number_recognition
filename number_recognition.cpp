@@ -3,20 +3,20 @@
 using namespace std;
 using namespace cv;
 
-Mat img(500, 700, CV_8UC3, Scalar(255, 255, 255));	//3Ã¤³Î ÄÃ·¯¿µ»ó
-Mat copy_img;	//±âÁ¸ ¿µ»ó º¹»çº»
+Mat img(500, 700, CV_8UC3, Scalar(255, 255, 255));	//3ì±„ë„ ì»¬ëŸ¬ì˜ìƒ
+Mat copy_img;	//ê¸°ì¡´ ì˜ìƒ ë³µì‚¬ë³¸
 Mat img_size(500 / 5, 200, CV_8UC3, Scalar(255, 255, 255));
 Point ptOld;
 string file_name;
 
-void on_mouse(int event, int x, int y, int flags, void*);	//¸¶¿ì½º ÀÌº¥Æ®
-void img_UI(Mat& img);	//¿µ»ó UI ±×¸®±â ÇÔ¼ö
+void on_mouse(int event, int x, int y, int flags, void*);	//ë§ˆìš°ìŠ¤ ì´ë²¤íŠ¸
+void img_UI(Mat& img);	//ì˜ìƒ UI ê·¸ë¦¬ê¸° í•¨ìˆ˜
 
 int main() {
-	img_UI(img);	//UI±×¸®±â ÇÔ¼ö È£Ãâ
+	img_UI(img);	//UIê·¸ë¦¬ê¸° í•¨ìˆ˜ í˜¸ì¶œ
 
 	namedWindow("img");
-	setMouseCallback("img", on_mouse);	//¸¶¿ì½ºÀÌº¥Æ® ÇÔ¼ö È£Ãâ
+	setMouseCallback("img", on_mouse);	//ë§ˆìš°ìŠ¤ì´ë²¤íŠ¸ í•¨ìˆ˜ í˜¸ì¶œ
 
 	waitKey();
 	return 0;
@@ -25,37 +25,37 @@ int main() {
 void on_mouse(int event, int x, int y, int flags, void*) {
 	imshow("img", img);
 	Rect rect_area[] = {
-		Rect(0, 0, 495, 495),	//ÀÔ·ÂÃ¢ ¿µ¿ª
-		Rect(501, 0, 199, 99),	//save ¿µ¿ª
-		Rect(501, 500 / 5 + 1, 199, 99),	//load ¿µ¿ª
-		Rect(501, 500 * 2 / 5 + 1, 199, 99),	//clear ¿µ¿ª
-		Rect(501, 500 * 3 / 5 + 1, 199, 99),	//run ¿µ¿ª
-		Rect(501, 500 * 4 / 5 + 1, 199, 99)	//exit ¿µ¿ª
+		Rect(0, 0, 495, 495),	//ì…ë ¥ì°½ ì˜ì—­
+		Rect(501, 0, 199, 99),	//save ì˜ì—­
+		Rect(501, 500 / 5 + 1, 199, 99),	//load ì˜ì—­
+		Rect(501, 500 * 2 / 5 + 1, 199, 99),	//clear ì˜ì—­
+		Rect(501, 500 * 3 / 5 + 1, 199, 99),	//run ì˜ì—­
+		Rect(501, 500 * 4 / 5 + 1, 199, 99)	//exit ì˜ì—­
 	};
 	switch (event) {
 	case EVENT_LBUTTONDOWN:
 		ptOld = Point(x, y);
-		if (rect_area[1].contains(Point(x, y))) {	//save
-			cout << "ÀúÀåÇÒ ÆÄÀÏ¸íÀ» ÀÔ·Â : ";
+		if (rect_area[1].contains(ptOld)) {	//save
+			cout << "ì €ì¥í•  íŒŒì¼ëª…ì„ ì…ë ¥ : ";
 			getline(cin, file_name);
 			imwrite(file_name, img);
 		}
-		else if (rect_area[2].contains(Point(x, y))) {	//load
-			cout << "ºÒ·¯¿Ã ÆÄÀÏ¸íÀ» ÀÔ·Â : ";
+		else if (rect_area[2].contains(ptOld)) {	//load
+			cout << "ë¶ˆëŸ¬ì˜¬ íŒŒì¼ëª…ì„ ì…ë ¥ : ";
 			getline(cin, file_name);
 			img = imread(file_name);
 			imshow("img", img);
 		}
-		else if (rect_area[3].contains(Point(x, y))) {	//clear
+		else if (rect_area[3].contains(ptOld)) {	//clear
 			rectangle(img, Rect(2, 2, 497, 496), Scalar(255, 255, 255), -1);
 			imshow("img", img);
 		}
-		else if (rect_area[4].contains(Point(x, y))) {	//run
-			//¹Ì±¸Çö
+		else if (rect_area[4].contains(ptOld)) {	//run
+			//ë¯¸êµ¬í˜„
 		}
-		else if (rect_area[5].contains(Point(x, y))) {	//exit
-			cout << "ÇÁ·Î±×·¥ Á¾·á" << endl;
-			exit(0);	//Á¾·á
+		else if (rect_area[5].contains(ptOld)) {	//exit
+			cout << "í”„ë¡œê·¸ë¨ ì¢…ë£Œ" << endl;
+			exit(0);	//ì¢…ë£Œ
 		}
 		break;
 	case EVENT_MOUSEMOVE:
@@ -70,21 +70,21 @@ void on_mouse(int event, int x, int y, int flags, void*) {
 	}
 }
 void img_UI(Mat& img) {
-	//Ä­ ³ª´©±â
+	//ì¹¸ ë‚˜ëˆ„ê¸°
 	line(img, Point(500, 0), Point(500, 500), Scalar(0, 0, 0), 2);
 	for (int i = 1; i < 5; i++) {
 		line(img, Point(500, 500 * i / 5), Point(700, 500 * i / 5), Scalar(0, 0, 0), 2);
 	}
-	rectangle(img, Rect(0, 0, 700, 500), Scalar(0, 0, 0), 2);	//Å×µÎ¸®
+	rectangle(img, Rect(0, 0, 700, 500), Scalar(0, 0, 0), 2);	//í…Œë‘ë¦¬
 
-	//UI¼³°è
+	//UIì„¤ê³„
 	string text[] = { "Save", "Load", "Clear", "Run", "Exit" };
-	int fontface = FONT_HERSHEY_SIMPLEX;	//ÆùÆ® Á¾·ù
-	double fontscale = 2.0;	//ÆùÆ® Å©±â
-	int thickness = 2;	//±Û¾¾ µÎ²²
+	int fontface = FONT_HERSHEY_SIMPLEX;	//í°íŠ¸ ì¢…ë¥˜
+	double fontscale = 2.0;	//í°íŠ¸ í¬ê¸°
+	int thickness = 2;	//ê¸€ì”¨ ë‘ê»˜
 	for (int i = 0; i < 5; i++) {
-		Size TextSize = getTextSize(text[i], fontface, fontscale, thickness, 0);	//±Û¾¾ Å©±â
-		Size imgsize = img_size.size();	//°´Ã¼ »çÀÌÁî
+		Size TextSize = getTextSize(text[i], fontface, fontscale, thickness, 0);	//ê¸€ì”¨ í¬ê¸°
+		Size imgsize = img_size.size();	//ê°ì²´ ì‚¬ì´ì¦ˆ
 		Point org(500 + (imgsize.width - TextSize.width) / 2,
 			500 * i / 5 + (imgsize.height + TextSize.height) / 2);
 		putText(img, text[i], org, fontface, fontscale, Scalar(0, 0, 0), thickness);
