@@ -36,24 +36,29 @@ void on_mouse(int event, int x, int y, int flags, void*) {
 	case EVENT_LBUTTONDOWN:
 		ptOld = Point(x, y);
 		if (rect_area[1].contains(ptOld)) {	//save
+			cout << "save press" << endl;
 			cout << "저장할 파일명을 입력 : ";
 			getline(cin, file_name);
 			imwrite(file_name, img);
 		}
 		else if (rect_area[2].contains(ptOld)) {	//load
+			cout << "load press" << endl;
 			cout << "불러올 파일명을 입력 : ";
 			getline(cin, file_name);
 			img = imread(file_name);
 			imshow("img", img);
 		}
 		else if (rect_area[3].contains(ptOld)) {	//clear
+			cout << "clear press" << endl;
 			rectangle(img, Rect(2, 2, 497, 496), Scalar(255, 255, 255), -1);
 			imshow("img", img);
 		}
 		else if (rect_area[4].contains(ptOld)) {	//run
+			cout << "run press" << endl;
 			//미구현
 		}
 		else if (rect_area[5].contains(ptOld)) {	//exit
+			cout << "exit press" << endl;
 			cout << "프로그램 종료" << endl;
 			exit(0);	//종료
 		}
