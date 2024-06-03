@@ -39,13 +39,15 @@ void on_mouse(int event, int x, int y, int flags, void*) {
 			cout << "save press" << endl;
 			cout << "저장할 파일명을 입력 : ";
 			getline(cin, file_name);
-			imwrite(file_name, img);
+			Mat save_img = img(Rect(1, 1, 498, 498));
+			imwrite(file_name, save_img);
 		}
 		else if (rect_area[2].contains(ptOld)) {	//load
 			cout << "load press" << endl;
 			cout << "불러올 파일명을 입력 : ";
 			getline(cin, file_name);
-			img = imread(file_name);
+			Mat load_img = imread(file_name);
+			load_img.copyTo(img(Rect(1, 1, 498, 498)));
 			imshow("img", img);
 		}
 		else if (rect_area[3].contains(ptOld)) {	//clear
