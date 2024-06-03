@@ -5,11 +5,14 @@ using namespace cv;
 
 Mat img(500, 900, CV_8UC3, Scalar(255, 255, 255));	//3채널 컬러영상
 Mat img_size(500 / 5, 200, CV_8UC3, Scalar(255, 255, 255));
+Mat contour_img;
+Mat gray, bin, rev;
 Point ptOld;
 string file_name;
 
 void on_mouse(int event, int x, int y, int flags, void*);	//마우스 이벤트
 void img_UI(Mat& img);	//영상 UI 그리기 함수
+bool four(Mat img);
 
 int main() {
 	img_UI(img);	//UI그리기 함수 호출
@@ -31,7 +34,11 @@ void on_mouse(int event, int x, int y, int flags, void*) {
 		Rect(501, 500 * 2 / 5 + 1, 199, 99),	//clear 영역
 		Rect(501, 500 * 3 / 5 + 1, 199, 99),	//run 영역
 		Rect(501, 500 * 4 / 5 + 1, 199, 99),	//exit 영역
-		Rect(700, 0, 199, 99)	//contour 영역
+		Rect(700, 0, 199, 99),	//contour 영역
+		Rect(700, 500 / 5 + 1, 199, 99),
+		Rect(700, 500 * 2 / 5 + 1, 199, 99),
+		Rect(700, 500 * 3 / 5 + 1, 199, 99),
+		Rect(700, 500 * 4 / 5 + 1, 199, 99)
 	};
 	switch (event) {
 	case EVENT_LBUTTONDOWN:
@@ -56,7 +63,7 @@ void on_mouse(int event, int x, int y, int flags, void*) {
 		}
 		else if (rect_area[4].contains(Point(x, y))) {	//run
 			cout << "run press" << endl;
-			
+
 		}
 		else if (rect_area[5].contains(Point(x, y))) {	//exit
 			cout << "exit press" << endl;
@@ -66,9 +73,7 @@ void on_mouse(int event, int x, int y, int flags, void*) {
 		else if (rect_area[6].contains(Point(x, y))) {	//contour
 			cout << "contour press" << endl;
 
-			Mat contour_img = img(Rect(0, 0, 500, 500));
-			Mat gray, bin, rev;
-
+			contour_img = img(Rect(0, 0, 500, 500));
 			cvtColor(contour_img, gray, COLOR_BGR2GRAY);
 			threshold(gray, bin, 0, 255, THRESH_BINARY | THRESH_OTSU);
 			rev = ~bin;
@@ -76,18 +81,31 @@ void on_mouse(int event, int x, int y, int flags, void*) {
 			findContours(rev, contours, RETR_LIST, CHAIN_APPROX_NONE);
 
 			cout << "외곽선 갯수 : " << contours.size() << endl;
+			if (contours.size() == 1) {
+				cout << "예상 결과 : 1, 2, 3, 5, 7" << endl;
+			}
+			else if (contours.size() == 2) {
+				cout << "예상 결과 : 0, 4, 6, 9" << endl;
+			}
+			else if (contours.size() == 3) {
+				cout << "예상 결과 : 8" << endl;
+			}
 		}
 		break;
 	case EVENT_MOUSEMOVE:
 		if (rect_area[0].contains(Point(x, y))) {
 			if (flags & EVENT_FLAG_LBUTTON) {
-				line(img, ptOld, Point(x, y), Scalar(0, 0, 0), 5);
+				line(img, ptOld, Point(x, y), Scalar(0, 0, 0), 10);
 				ptOld = Point(x, y);
 			}
 		}
 		break;
 	}
 }
+bool four(Mat img) {
+	
+}
+
 void img_UI(Mat& img) {
 	//칸 나누기
 	line(img, Point(502, 0), Point(502, 500), Scalar(0, 0, 0), 2);
@@ -103,8 +121,8 @@ void img_UI(Mat& img) {
 	int fontface = FONT_HERSHEY_SIMPLEX;	//폰트 종류
 	double fontscale = 1.0;	//폰트 크기
 	int thickness = 2;	//글씨 두께
-	for (int i = 0; i < 2; i++) {
-		for (int j = 0; j < 5; j++) {
+	for (int i = 0; i < text.size(); i++) {
+		for (int j = 0; j < text[i].size(); j++) {
 			Size TextSize = getTextSize(text[i][j], fontface, fontscale, thickness, 0);	//글씨 크기
 			Size imgsize = img_size.size();	//객체 사이즈
 			Point org(500 + i * 200 + (imgsize.width - TextSize.width) / 2,
