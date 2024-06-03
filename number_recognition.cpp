@@ -39,7 +39,7 @@ void on_mouse(int event, int x, int y, int flags, void*) {
 			cout << "save press" << endl;
 			cout << "저장할 파일명을 입력 : ";
 			getline(cin, file_name);
-			Mat save_img = img(Rect(Point(2, 2), Point(499, 498)));
+			Mat save_img = img(Rect(2, 2, 497, 496));
 			imwrite(file_name, save_img);
 		}
 		else if (rect_area[2].contains(ptOld)) {	//load
@@ -47,12 +47,12 @@ void on_mouse(int event, int x, int y, int flags, void*) {
 			cout << "불러올 파일명을 입력 : ";
 			getline(cin, file_name);
 			Mat load_img = imread(file_name);
-			load_img.copyTo(img(Rect(Point(2, 2), Point(499, 498))));
+			load_img.copyTo(img(Rect(2, 2, 497, 496)));
 			imshow("img", img);
 		}
 		else if (rect_area[3].contains(ptOld)) {	//clear
 			cout << "clear press" << endl;
-			rectangle(img, Rect(Point(2, 2), Point(499, 498)), Scalar(255, 255, 255), -1);
+			rectangle(img, Rect(2, 2, 497, 496), Scalar(255, 255, 255), -1);
 			imshow("img", img);
 		}
 		else if (rect_area[4].contains(ptOld)) {	//run
