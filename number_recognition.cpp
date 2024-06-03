@@ -75,7 +75,7 @@ void on_mouse(int event, int x, int y, int flags, void*) {
 			vector<vector<Point>> contours;
 			findContours(rev, contours, RETR_LIST, CHAIN_APPROX_NONE);
 
-			cout << "외각선 갯수 : " << contours.size() << endl;
+			cout << "외곽선 갯수 : " << contours.size() << endl;
 		}
 		break;
 	case EVENT_MOUSEMOVE:
