@@ -4,7 +4,6 @@ using namespace std;
 using namespace cv;
 
 Mat img(500, 700, CV_8UC3, Scalar(255, 255, 255));	//3채널 컬러영상
-Mat copy_img;	//기존 영상 복사본
 Mat img_size(500 / 5, 200, CV_8UC3, Scalar(255, 255, 255));
 Point ptOld;
 string file_name;
