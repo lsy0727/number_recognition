@@ -18,6 +18,7 @@ int main() {
 	namedWindow("img");
 	setMouseCallback("img", on_mouse);	//마우스이벤트 함수 호출
 
+	imshow("img", img);
 	waitKey();
 	return 0;
 }
@@ -96,5 +97,4 @@ void img_UI(Mat& img) {
 			500 * i / 5 + (imgsize.height + TextSize.height) / 2);
 		putText(img, text[i], org, fontface, fontscale, Scalar(0, 0, 0), thickness);
 	}
-	imshow("img", img);
 }
