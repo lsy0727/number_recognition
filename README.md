@@ -12,7 +12,7 @@
 
    Rect(0,0,500,500)영역은 입력창 영역이기 때문에 x좌표에 500을 더함
 
-   ![image](https://github.com/lsy0727/number_recognition/assets/92630416/45b1483c-e582-4716-a559-338059854efd)
+![image](https://github.com/lsy0727/number_recognition/assets/92630416/f908440f-2950-40a2-9509-b00140d52e1c)
 
 3. 마우스 이벤트 함수
 
