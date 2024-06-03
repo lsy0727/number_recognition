@@ -49,12 +49,10 @@ void on_mouse(int event, int x, int y, int flags, void*) {
 			getline(cin, file_name);
 			Mat load_img = imread(file_name);
 			load_img.copyTo(img(Rect(2, 2, 497, 496)));
-			imshow("img", img);
 		}
 		else if (rect_area[3].contains(ptOld)) {	//clear
 			cout << "clear press" << endl;
 			rectangle(img, Rect(2, 2, 497, 496), Scalar(255, 255, 255), -1);
-			imshow("img", img);
 		}
 		else if (rect_area[4].contains(ptOld)) {	//run
 			cout << "run press" << endl;
