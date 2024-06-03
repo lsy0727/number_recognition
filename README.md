@@ -25,4 +25,4 @@
    5) exit : 콘솔창에 "프로그램 종료"메시지를 출력한 후 종료한다.
    6) 입력창 영역 내에서 마우스 왼쪽버튼을 누른상태로 드래그시 선이 그려진다.
 
-https://www.youtube.com/watch?v=bCU_hu3A0O8
+https://youtu.be/uUEEA_AT6Zc
