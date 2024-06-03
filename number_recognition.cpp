@@ -30,7 +30,8 @@ void on_mouse(int event, int x, int y, int flags, void*) {
 		Rect(501, 500 / 5 + 1, 199, 99),	//load 영역
 		Rect(501, 500 * 2 / 5 + 1, 199, 99),	//clear 영역
 		Rect(501, 500 * 3 / 5 + 1, 199, 99),	//run 영역
-		Rect(501, 500 * 4 / 5 + 1, 199, 99)	//exit 영역
+		Rect(501, 500 * 4 / 5 + 1, 199, 99),	//exit 영역
+		Rect(700, 0, 199, 99)	//contour 영역
 	};
 	switch (event) {
 	case EVENT_LBUTTONDOWN:
@@ -49,18 +50,32 @@ void on_mouse(int event, int x, int y, int flags, void*) {
 			Mat load_img = imread(file_name);
 			load_img.copyTo(img(Rect(0, 0, 500, 500)));
 		}
-		else if (rect_area[3].contains(ptOld)) {	//clear
+		else if (rect_area[3].contains(Point(x, y))) {	//clear
 			cout << "clear press" << endl;
 			rectangle(img, Rect(0, 0, 501, 501), Scalar(255, 255, 255), -1);
 		}
-		else if (rect_area[4].contains(ptOld)) {	//run
+		else if (rect_area[4].contains(Point(x, y))) {	//run
 			cout << "run press" << endl;
-			//미구현
+			
 		}
-		else if (rect_area[5].contains(ptOld)) {	//exit
+		else if (rect_area[5].contains(Point(x, y))) {	//exit
 			cout << "exit press" << endl;
 			cout << "프로그램 종료" << endl;
 			exit(0);	//종료
+		}
+		else if (rect_area[6].contains(Point(x, y))) {	//contour
+			cout << "contour press" << endl;
+
+			Mat contour_img = img(Rect(0, 0, 500, 500));
+			Mat gray, bin, rev;
+
+			cvtColor(contour_img, gray, COLOR_BGR2GRAY);
+			threshold(gray, bin, 0, 255, THRESH_BINARY | THRESH_OTSU);
+			rev = ~bin;
+			vector<vector<Point>> contours;
+			findContours(rev, contours, RETR_LIST, CHAIN_APPROX_NONE);
+
+			cout << "외각선 갯수 : " << contours.size() << endl;
 		}
 		break;
 	case EVENT_MOUSEMOVE:
@@ -83,16 +98,18 @@ void img_UI(Mat& img) {
 	}
 
 	//UI설계
-	string text[] = { "Save", "Load", "Clear", "Run", "Exit",
-						"contour" };
+	vector<vector<string>> text = { {"Save", "Load", "Clear", "Run", "Exit"},
+		{"contour", "feature2", "feature3", "feature4", "feafure5"} };
 	int fontface = FONT_HERSHEY_SIMPLEX;	//폰트 종류
-	double fontscale = 2.0;	//폰트 크기
+	double fontscale = 1.0;	//폰트 크기
 	int thickness = 2;	//글씨 두께
-	for (int i = 0; i < 5; i++) {
-		Size TextSize = getTextSize(text[i], fontface, fontscale, thickness, 0);	//글씨 크기
-		Size imgsize = img_size.size();	//객체 사이즈
-		Point org(500 + (imgsize.width - TextSize.width) / 2,
-			500 * i / 5 + (imgsize.height + TextSize.height) / 2);
-		putText(img, text[i], org, fontface, fontscale, Scalar(0, 0, 0), thickness);
+	for (int i = 0; i < 2; i++) {
+		for (int j = 0; j < 5; j++) {
+			Size TextSize = getTextSize(text[i][j], fontface, fontscale, thickness, 0);	//글씨 크기
+			Size imgsize = img_size.size();	//객체 사이즈
+			Point org(500 + i * 200 + (imgsize.width - TextSize.width) / 2,
+				500 * j / 5 + (imgsize.height + TextSize.height) / 2);
+			putText(img, text[i][j], org, fontface, fontscale, Scalar(0, 0, 0), thickness);
+		}
 	}
 }
