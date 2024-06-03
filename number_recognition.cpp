@@ -68,7 +68,6 @@ void on_mouse(int event, int x, int y, int flags, void*) {
 		if (rect_area[0].contains(Point(x, y))) {
 			if (flags & EVENT_FLAG_LBUTTON) {
 				line(img, ptOld, Point(x, y), Scalar(0, 0, 0), 10);
-				imshow("img", img);
 				ptOld = Point(x, y);
 			}
 		}
