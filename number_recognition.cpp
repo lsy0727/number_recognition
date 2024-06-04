@@ -70,28 +70,6 @@ void on_mouse(int event, int x, int y, int flags, void*) {
 			cout << "프로그램 종료" << endl;
 			exit(0);	//종료
 		}
-		else if (rect_area[6].contains(Point(x, y))) {	//contour
-			cout << "contour press" << endl;
-
-			contour_img = img(Rect(0, 0, 500, 500));
-			cvtColor(contour_img, gray, COLOR_BGR2GRAY);
-			threshold(gray, bin, 0, 255, THRESH_BINARY | THRESH_OTSU);
-			rev = ~bin;
-			vector<vector<Point>> contours;
-			findContours(rev, contours, RETR_LIST, CHAIN_APPROX_NONE);
-
-			cout << "외곽선 갯수 : " << contours.size() << endl;
-			if (contours.size() == 1) {
-				cout << "예상 결과 : 1, 2, 3, 5, 7" << endl;
-			}
-			else if (contours.size() == 2) {
-				cout << "예상 결과 : 0, 4, 6, 9" << endl;
-			}
-			else if (contours.size() == 3) {
-				cout << "예상 결과 : 8" << endl;
-			}
-		}
-		break;
 	case EVENT_MOUSEMOVE:
 		if (rect_area[0].contains(Point(x, y))) {
 			if (flags & EVENT_FLAG_LBUTTON) {
@@ -101,9 +79,6 @@ void on_mouse(int event, int x, int y, int flags, void*) {
 		}
 		break;
 	}
-}
-bool four(Mat img) {
-	
 }
 
 void img_UI(Mat& img) {
@@ -116,8 +91,7 @@ void img_UI(Mat& img) {
 	}
 
 	//UI설계
-	vector<vector<string>> text = { {"Save", "Load", "Clear", "Run", "Exit"},
-		{"contour", "feature2", "feature3", "feature4", "feafure5"} };
+	vector<vector<string>> text = { {"Save", "Load", "Clear", "Run", "Exit"}};
 	int fontface = FONT_HERSHEY_SIMPLEX;	//폰트 종류
 	double fontscale = 1.0;	//폰트 크기
 	int thickness = 2;	//글씨 두께
