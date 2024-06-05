@@ -11,7 +11,6 @@ string file_name;
 
 void on_mouse(int event, int x, int y, int flags, void*);	//마우스 이벤트
 void img_UI(Mat& img);	//영상 UI 그리기 함수
-bool four(Mat img);
 
 int main() {
 	img_UI(img);	//UI그리기 함수 호출
